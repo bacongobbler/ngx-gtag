@@ -1,11 +1,11 @@
-import { Gtag } from '../src/gtag.service';
+import { GtagService } from './gtag.service';
 import { Router } from '@angular/router';
 
 describe('Gtag', () => {
-  let gtag;
+  let gtag: GtagService;
 
   beforeEach(() => {
-    gtag = new Gtag({ trackingId: 'testId' }, {} as Router);
+    gtag = new GtagService({ trackingId: 'testId' }, {} as Router);
   });
 
   it('should be defined', () => {

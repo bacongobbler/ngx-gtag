@@ -1,0 +1,20 @@
+{
+    "name": "@bacongobbler/ngx-gtag",
+    "version": "1.0.0",
+    "author": "Matthew Fisher <matt.fisher@fishworks.io>",
+    "repository": "https://github.com/bacongobbler/ngx-gtag",
+    "license": "MIT",
+    "private": false,
+    "peerDependencies": {
+        "@angular/common": "^15.0.0",
+        "@angular/core": "^15.0.0"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "keywords": [
+        "angular",
+        "google analytics",
+        "gtag.js"
+    ]
+}

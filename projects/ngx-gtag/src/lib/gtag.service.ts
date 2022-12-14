@@ -1,23 +1,21 @@
 import { Injectable, Inject } from '@angular/core';
 import { GtagPageview, GtagEvent, GtagConfig } from './interfaces';
 import { Router, NavigationEnd } from '@angular/router';
-import { tap, filter } from 'rxjs/operators';
+
 declare var gtag: any;
 
 @Injectable()
-export class Gtag {
+export class GtagService {
   private mergedConfig: GtagConfig;
+
   constructor(@Inject('config') gaConfig: GtagConfig, private router: Router) {
     this.mergedConfig = { trackPageviews: true, ...gaConfig };
     if (this.mergedConfig.trackPageviews) {
-      router.events
-        .pipe(
-          filter(event => event instanceof NavigationEnd),
-          tap(event => {
-            this.pageview();
-          })
-        )
-        .subscribe();
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.pageview();
+        }
+      });
     }
   }
 
@@ -63,7 +61,7 @@ export class Gtag {
     }
   }
 
-  private debug(...msg) {
+  private debug(...msg: (string | GtagEvent | GtagPageview)[]) {
     if (this.mergedConfig.debug) {
       console.log('angular-gtag:', ...msg);
     }
