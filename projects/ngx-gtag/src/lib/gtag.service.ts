@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { GtagPageview, GtagEvent, GtagConfig } from './interfaces';
+import { GtagPageview, GtagEvent, GtagConfig, CustomParams } from './interfaces';
 import { Router, NavigationEnd } from '@angular/router';
 
 declare var gtag: any;
@@ -29,15 +29,9 @@ export class GtagService {
     }
   }
 
+  // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
   pageview(params?: GtagPageview) {
     try {
-      const defaults = {
-        page_path: this.router.url,
-        page_title: 'Angular App',
-        page_location: window.location.href
-      };
-
-      params = { ...defaults, ...params };
       gtag('config', this.mergedConfig.trackingId, params);
       this.debug('pageview', this.mergedConfig.trackingId, params);
     } catch (err) {
@@ -45,23 +39,23 @@ export class GtagService {
     }
   }
 
-  config(params: any) {
+  config(params: CustomParams) {
     try {
-      gtag('config', this.mergedConfig.trackingId, (params = {}));
+      gtag('config', this.mergedConfig.trackingId, params);
     } catch (err) {
       console.error('Google Analytics config error', err);
     }
   }
 
-  set(params: any) {
+  set(params: CustomParams) {
     try {
-      gtag('set', (params = {}));
+      gtag('set', params);
     } catch (err) {
       console.error('Google Analytics set error', err);
     }
   }
 
-  private debug(...msg: (string | GtagEvent | GtagPageview)[]) {
+  private debug(...msg: any[]) {
     if (this.mergedConfig.debug) {
       console.log('angular-gtag:', ...msg);
     }
